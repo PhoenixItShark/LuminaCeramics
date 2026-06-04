@@ -1,25 +1,31 @@
 import { motion } from 'framer-motion'
 import { Hand, Leaf, Clock } from 'lucide-react'
-
-const items = [
-  {
-    icon: Hand,
-    title: 'Ручная работа',
-    text: 'Никакого конвейера. Каждое изделие проходит через руки мастера — от первого прикосновения к глине до финального обжига. Уникальность в каждом изгибе.',
-  },
-  {
-    icon: Leaf,
-    title: 'Экологичность',
-    text: 'Натуральная глина без свинца и токсичных глазурей. Перерабатываемая крафт-упаковка. Мы думаем о следующем поколении, не только о вашем интерьере.',
-  },
-  {
-    icon: Clock,
-    title: 'Осознанность',
-    text: 'Керамика — это инструмент замедления. В мире бесконечных уведомлений мы создаём вещи, к которым хочется возвращаться и держать в руках.',
-  },
-]
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function Philosophy() {
+  const { t } = useLanguage()
+
+  const items = [
+    {
+      key: 'handmade',
+      icon: Hand,
+      title: t.philosophy.items.handmade.title,
+      text: t.philosophy.items.handmade.text,
+    },
+    {
+      key: 'eco',
+      icon: Leaf,
+      title: t.philosophy.items.eco.title,
+      text: t.philosophy.items.eco.text,
+    },
+    {
+      key: 'mindful',
+      icon: Clock,
+      title: t.philosophy.items.mindful.title,
+      text: t.philosophy.items.mindful.text,
+    },
+  ]
+
   return (
     <section id="about" className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -31,20 +37,20 @@ export default function Philosophy() {
           className="max-w-2xl mb-12 md:mb-16"
         >
           <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
-            О нас
+            {t.philosophy.label}
           </span>
           <h2 className="mt-3 font-heading text-3xl md:text-5xl font-semibold tracking-tight">
-            Три принципа мастерской
+            {t.philosophy.title}
           </h2>
           <p className="mt-4 text-text/70 text-base md:text-lg">
-            Мы верим, что керамика — это диалог между материалом, мастером и тем, кто будет ею пользоваться каждый день.
+            {t.philosophy.subtitle}
           </p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {items.map((it, i) => (
             <motion.article
-              key={it.title}
+              key={it.key}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}

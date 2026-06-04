@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Leaf } from 'lucide-react'
-
-const links = [
-  { href: '#about', label: 'О нас' },
-  { href: '#collections', label: 'Коллекции' },
-  { href: '#process', label: 'Процесс' },
-  { href: '#reviews', label: 'Отзывы' },
-  { href: '#contact', label: 'Контакты' },
-]
+import { useLanguage } from '../i18n/LanguageContext'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Navbar() {
+  const { t } = useLanguage()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+  const links = [
+    { href: '#about', label: t.nav.about },
+    { href: '#collections', label: t.nav.collections },
+    { href: '#process', label: t.nav.process },
+    { href: '#reviews', label: t.nav.reviews },
+    { href: '#contact', label: t.nav.contact },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -30,13 +33,13 @@ export default function Navbar() {
       }`}
     >
       <nav
-        className="mx-auto max-w-7xl px-5 md:px-8 h-16 md:h-20 flex items-center justify-between"
-        aria-label="Главная навигация"
+        className="mx-auto max-w-7xl px-5 md:px-8 h-16 md:h-20 flex items-center justify-between gap-4"
+        aria-label={t.nav.ariaNav}
       >
         <a
           href="#top"
           className="flex items-center gap-2 group"
-          aria-label="Lumina Ceramics — на главную"
+          aria-label={t.nav.ariaLabel}
         >
           <span className="grid place-items-center w-9 h-9 rounded-full bg-accent/15 text-accent group-hover:bg-accent group-hover:text-white transition-colors">
             <Leaf size={18} strokeWidth={1.8} />
@@ -59,24 +62,28 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-3">
+          <LanguageSwitcher />
           <a
             href="#contact"
             className="inline-flex items-center justify-center px-5 py-2.5 rounded-[var(--radius-soft)] bg-accent text-white text-sm font-medium hover:bg-hover transition-colors"
           >
-            Заказать
+            {t.nav.order}
           </a>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen(o => !o)}
-          className="lg:hidden p-2 rounded-md text-text hover:bg-secondary/60"
-          aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
-          aria-expanded={open}
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="lg:hidden flex items-center gap-2">
+          <LanguageSwitcher className="bg-white/70" />
+          <button
+            type="button"
+            onClick={() => setOpen(o => !o)}
+            className="p-2 rounded-md text-text hover:bg-secondary/60"
+            aria-label={open ? t.nav.ariaCloseMenu : t.nav.ariaOpenMenu}
+            aria-expanded={open}
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
@@ -106,7 +113,7 @@ export default function Navbar() {
                   onClick={() => setOpen(false)}
                   className="block text-center py-3 rounded-[var(--radius-soft)] bg-accent text-white font-medium hover:bg-hover"
                 >
-                  Заказать
+                  {t.nav.order}
                 </a>
               </li>
             </ul>

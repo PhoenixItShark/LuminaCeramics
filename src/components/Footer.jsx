@@ -1,7 +1,16 @@
 import { Instagram, Send, Mail, MapPin } from 'lucide-react'
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function Footer() {
+  const { t } = useLanguage()
   const year = new Date().getFullYear()
+
+  const navLinks = [
+    { href: '#about', label: t.nav.about },
+    { href: '#collections', label: t.nav.collections },
+    { href: '#process', label: t.nav.process },
+    { href: '#reviews', label: t.nav.reviews },
+  ]
 
   return (
     <footer className="border-t border-secondary/60 bg-bg pt-16 pb-8">
@@ -28,50 +37,28 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-text/60 leading-relaxed max-w-xs">
-              Студия керамики ручной работы. Создаём вещи, к которым хочется возвращаться.
+              {t.footer.desc}
             </p>
           </div>
 
           <div>
             <h4 className="font-heading text-sm font-semibold uppercase tracking-wider mb-4">
-              Навигация
+              {t.footer.navTitle}
             </h4>
             <ul className="space-y-2.5 text-sm text-text/70">
-              <li>
-                <a href="#about" className="hover:text-accent transition-colors">
-                  О нас
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#collections"
-                  className="hover:text-accent transition-colors"
-                >
-                  Коллекции
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#process"
-                  className="hover:text-accent transition-colors"
-                >
-                  Процесс
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#reviews"
-                  className="hover:text-accent transition-colors"
-                >
-                  Отзывы
-                </a>
-              </li>
+              {navLinks.map(l => (
+                <li key={l.href}>
+                  <a href={l.href} className="hover:text-accent transition-colors">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h4 className="font-heading text-sm font-semibold uppercase tracking-wider mb-4">
-              Контакты
+              {t.footer.contactsTitle}
             </h4>
             <ul className="space-y-2.5 text-sm text-text/70">
               <li className="flex items-start gap-2">
@@ -80,24 +67,24 @@ export default function Footer() {
                   className="mt-0.5 text-accent shrink-0"
                   aria-hidden="true"
                 />
-                <span>Москва, Большая Новодмитровская, 36/4</span>
+                <span>{t.footer.address}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} className="text-accent shrink-0" aria-hidden="true" />
                 <a
-                  href="mailto:hello@luminaceramics.ru"
+                  href="mailto:hello@luminaceramics.com"
                   className="hover:text-accent transition-colors"
                 >
-                  hello@luminaceramics.ru
+                  hello@luminaceramics.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Send size={16} className="text-accent shrink-0" aria-hidden="true" />
                 <a
-                  href="tel:+74950000000"
+                  href="tel:+380000000000"
                   className="hover:text-accent transition-colors"
                 >
-                  +7 (495) 000-00-00
+                  +380 (00) 000-00-00
                 </a>
               </li>
             </ul>
@@ -105,7 +92,7 @@ export default function Footer() {
 
           <div>
             <h4 className="font-heading text-sm font-semibold uppercase tracking-wider mb-4">
-              Соцсети
+              {t.footer.socialTitle}
             </h4>
             <div className="flex items-center gap-3">
               <a
@@ -144,20 +131,18 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-            <p className="mt-4 text-xs text-text/50">
-              Подписывайтесь — публикуем процесс работы и истории изделий.
-            </p>
+            <p className="mt-4 text-xs text-text/50">{t.footer.socialDesc}</p>
           </div>
         </div>
 
         <div className="mt-12 pt-6 border-t border-secondary/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-text/50">
-          <p>© {year} Lumina Ceramics. Все права защищены.</p>
+          <p>© {year} Lumina Ceramics. {t.footer.rights}</p>
           <div className="flex items-center gap-4">
             <a href="#" className="hover:text-accent transition-colors">
-              Политика конфиденциальности
+              {t.footer.privacy}
             </a>
             <a href="#" className="hover:text-accent transition-colors">
-              Договор оферты
+              {t.footer.offer}
             </a>
           </div>
         </div>

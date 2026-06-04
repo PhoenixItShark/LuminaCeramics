@@ -1,19 +1,21 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Mail, User, Send, Check } from 'lucide-react'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export default function Newsletter() {
+  const { t } = useLanguage()
   const [form, setForm] = useState({ name: '', email: '' })
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | loading | success
 
   const validate = () => {
     const e = {}
-    if (!form.name.trim()) e.name = 'Укажите имя'
-    if (!form.email.trim()) e.email = 'Укажите email'
-    else if (!emailRegex.test(form.email)) e.email = 'Некорректный email'
+    if (!form.name.trim()) e.name = t.newsletter.errName
+    if (!form.email.trim()) e.email = t.newsletter.errEmailRequired
+    else if (!emailRegex.test(form.email)) e.email = t.newsletter.errEmailInvalid
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -50,13 +52,13 @@ export default function Newsletter() {
           <div className="relative grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
               <span className="text-xs font-medium uppercase tracking-[0.2em] text-white/70">
-                Подписка
+                {t.newsletter.label}
               </span>
               <h2 className="mt-3 font-heading text-3xl md:text-5xl font-semibold tracking-tight leading-tight">
-                Будьте в курсе новых коллекций
+                {t.newsletter.title}
               </h2>
               <p className="mt-4 text-white/80 text-base md:text-lg max-w-md">
-                Раз в месяц — новости мастерской, истории создания и ранний доступ к лимитированным сериям. Без спама.
+                {t.newsletter.subtitle}
               </p>
             </div>
 
@@ -73,16 +75,16 @@ export default function Newsletter() {
                     <div className="w-14 h-14 mx-auto rounded-full bg-white text-accent grid place-items-center mb-4">
                       <Check size={28} strokeWidth={2.5} />
                     </div>
-                    <h3 className="font-heading text-2xl font-semibold">Спасибо!</h3>
-                    <p className="mt-2 text-white/80">
-                      Мы свяжемся с вами в ближайшее время.
-                    </p>
+                    <h3 className="font-heading text-2xl font-semibold">
+                      {t.newsletter.successTitle}
+                    </h3>
+                    <p className="mt-2 text-white/80">{t.newsletter.successText}</p>
                     <button
                       type="button"
                       onClick={() => setStatus('idle')}
                       className="mt-5 text-sm text-white/80 underline underline-offset-4 hover:text-white"
                     >
-                      Подписать ещё один адрес
+                      {t.newsletter.anotherAddress}
                     </button>
                   </motion.div>
                 ) : (
@@ -97,7 +99,7 @@ export default function Newsletter() {
                   >
                     <div>
                       <label htmlFor="nl-name" className="sr-only">
-                        Имя
+                        {t.newsletter.nameLabel}
                       </label>
                       <div className="relative">
                         <User
@@ -107,7 +109,7 @@ export default function Newsletter() {
                         <input
                           id="nl-name"
                           type="text"
-                          placeholder="Ваше имя"
+                          placeholder={t.newsletter.namePlaceholder}
                           value={form.name}
                           onChange={e =>
                             setForm(f => ({ ...f, name: e.target.value }))
@@ -132,7 +134,7 @@ export default function Newsletter() {
 
                     <div>
                       <label htmlFor="nl-email" className="sr-only">
-                        Email
+                        {t.newsletter.emailLabel}
                       </label>
                       <div className="relative">
                         <Mail
@@ -142,7 +144,7 @@ export default function Newsletter() {
                         <input
                           id="nl-email"
                           type="email"
-                          placeholder="Email"
+                          placeholder={t.newsletter.emailPlaceholder}
                           value={form.email}
                           onChange={e =>
                             setForm(f => ({ ...f, email: e.target.value }))
@@ -173,16 +175,16 @@ export default function Newsletter() {
                       {status === 'loading' ? (
                         <>
                           <span className="w-4 h-4 border-2 border-bg/40 border-t-bg rounded-full animate-spin" />
-                          Отправляем...
+                          {t.newsletter.loading}
                         </>
                       ) : (
                         <>
-                          Подписаться <Send size={16} />
+                          {t.newsletter.submit} <Send size={16} />
                         </>
                       )}
                     </button>
                     <p className="text-xs text-white/70 text-center pt-1">
-                      Нажимая «Подписаться», вы соглашаетесь с обработкой персональных данных.
+                      {t.newsletter.privacy}
                     </p>
                   </motion.form>
                 )}

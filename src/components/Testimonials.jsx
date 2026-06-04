@@ -1,43 +1,23 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react'
-
-const reviews = [
-  {
-    quote:
-      'Ваза Silence стала центром нашей гостиной. Качество и тактильность невероятные — видно, что в каждое изделие вложена душа.',
-    name: 'Анна М.',
-    city: 'Москва',
-  },
-  {
-    quote:
-      'Заказывал набор кружек Earth Mug для офиса. Коллеги не верят, что это ручная работа — настолько ровно и аккуратно всё сделано.',
-    name: 'Дмитрий К.',
-    city: 'Санкт-Петербург',
-  },
-  {
-    quote:
-      'Подарила маме миску Morning Bowl на день рождения. Она говорит, что теперь каждый завтрак — маленький ритуал. Спасибо за эту магию!',
-    name: 'Елена С.',
-    city: 'Казань',
-  },
-  {
-    quote:
-      'Доставка в крафте, продуманная упаковка, открытка с историей изделия — чувствуется внимание к деталям. Рекомендую всем.',
-    name: 'Игорь В.',
-    city: 'Екатеринбург',
-  },
-]
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function Testimonials() {
+  const { t } = useLanguage()
+  const reviews = t.testimonials.items
   const [i, setI] = useState(0)
   const [paused, setPaused] = useState(false)
 
   useEffect(() => {
+    setI(0)
+  }, [t])
+
+  useEffect(() => {
     if (paused) return
-    const t = setInterval(() => setI(p => (p + 1) % reviews.length), 5000)
-    return () => clearInterval(t)
-  }, [paused])
+    const id = setInterval(() => setI(p => (p + 1) % reviews.length), 5000)
+    return () => clearInterval(id)
+  }, [paused, reviews.length])
 
   const prev = () => setI(p => (p - 1 + reviews.length) % reviews.length)
   const next = () => setI(p => (p + 1) % reviews.length)
@@ -56,10 +36,10 @@ export default function Testimonials() {
           className="text-center max-w-2xl mx-auto mb-12 md:mb-16"
         >
           <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
-            Отзывы
+            {t.testimonials.label}
           </span>
           <h2 className="mt-3 font-heading text-3xl md:text-5xl font-semibold tracking-tight">
-            Что говорят наши клиенты
+            {t.testimonials.title}
           </h2>
         </motion.div>
 
@@ -97,7 +77,7 @@ export default function Testimonials() {
                   </div>
                   <div
                     className="flex items-center gap-1 text-accent"
-                    aria-label="Оценка 5 из 5"
+                    aria-label={t.testimonials.ariaRate}
                   >
                     {Array.from({ length: 5 }).map((_, k) => (
                       <Star key={k} size={16} fill="currentColor" strokeWidth={0} />
@@ -113,7 +93,7 @@ export default function Testimonials() {
               type="button"
               onClick={prev}
               className="w-10 h-10 grid place-items-center rounded-full border border-secondary hover:bg-secondary/60 transition-colors"
-              aria-label="Предыдущий отзыв"
+              aria-label={t.testimonials.ariaPrev}
             >
               <ChevronLeft size={18} />
             </button>
@@ -125,7 +105,7 @@ export default function Testimonials() {
                   onClick={() => setI(k)}
                   role="tab"
                   aria-selected={k === i}
-                  aria-label={`Перейти к отзыву ${k + 1}`}
+                  aria-label={`${t.testimonials.ariaGoTo} ${k + 1}`}
                   className={`h-2 rounded-full transition-all ${
                     k === i
                       ? 'w-8 bg-accent'
@@ -138,7 +118,7 @@ export default function Testimonials() {
               type="button"
               onClick={next}
               className="w-10 h-10 grid place-items-center rounded-full border border-secondary hover:bg-secondary/60 transition-colors"
-              aria-label="Следующий отзыв"
+              aria-label={t.testimonials.ariaNext}
             >
               <ChevronRight size={18} />
             </button>

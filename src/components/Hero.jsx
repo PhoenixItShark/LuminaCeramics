@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles } from 'lucide-react'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -11,6 +12,14 @@ const fadeUp = {
 }
 
 export default function Hero() {
+  const { t } = useLanguage()
+
+  const stats = [
+    { n: t.hero.stat1n, t: t.hero.stat1t },
+    { n: t.hero.stat2n, t: t.hero.stat2t },
+    { n: t.hero.stat3n, t: t.hero.stat3t },
+  ]
+
   return (
     <section id="top" className="relative pt-28 md:pt-36 pb-16 md:pb-24 overflow-hidden">
       <div className="absolute inset-0 -z-10" aria-hidden="true">
@@ -28,7 +37,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/60 text-text/80 text-xs md:text-sm mb-6"
           >
             <Sparkles size={14} className="text-accent" />
-            <span>Новая коллекция осень 2025</span>
+            <span>{t.hero.badge}</span>
           </motion.div>
 
           <motion.h1
@@ -38,7 +47,9 @@ export default function Hero() {
             custom={1}
             className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.05] tracking-tight"
           >
-            Керамика, которая <span className="text-accent">дышит</span> тишиной
+            {t.hero.title1}{' '}
+            <span className="text-accent">{t.hero.titleAccent}</span>{' '}
+            {t.hero.title2}
           </motion.h1>
 
           <motion.p
@@ -48,7 +59,7 @@ export default function Hero() {
             custom={2}
             className="mt-6 text-base md:text-lg text-text/70 max-w-xl leading-relaxed"
           >
-            Каждое изделие создано вручную из натуральной глины. Минимализм формы, тепло тактильности и долговечность на десятилетия.
+            {t.hero.subtitle}
           </motion.p>
 
           <motion.div
@@ -62,13 +73,13 @@ export default function Hero() {
               href="#collections"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-[var(--radius-soft)] bg-accent text-white font-medium hover:bg-hover transition-colors shadow-sm"
             >
-              Смотреть коллекцию <ArrowRight size={18} />
+              {t.hero.btnCollection} <ArrowRight size={18} />
             </a>
             <a
               href="#about"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-[var(--radius-soft)] border border-secondary bg-transparent text-text font-medium hover:bg-secondary/50 transition-colors"
             >
-              Наша философия
+              {t.hero.btnPhilosophy}
             </a>
           </motion.div>
 
@@ -79,11 +90,7 @@ export default function Hero() {
             custom={4}
             className="mt-12 grid grid-cols-3 gap-6 max-w-md"
           >
-            {[
-              { n: '8+', t: 'лет опыта' },
-              { n: '1200°', t: 'обжиг' },
-              { n: '100%', t: 'ручная работа' },
-            ].map(s => (
+            {stats.map(s => (
               <div key={s.t}>
                 <div className="font-heading text-2xl md:text-3xl font-semibold text-accent">
                   {s.n}
@@ -103,7 +110,7 @@ export default function Hero() {
           <div className="relative aspect-[4/5] md:aspect-[5/6] rounded-[var(--radius-card)] overflow-hidden bg-secondary/40 shadow-[0_30px_80px_-30px_rgba(61,43,31,0.35)]">
             <img
               src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=1200&q=80&auto=format&fit=crop"
-              alt="Керамическая ваза ручной работы"
+              alt={t.hero.imageAlt}
               loading="eager"
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -118,12 +125,14 @@ export default function Hero() {
           >
             <div className="flex items-center gap-2 text-accent mb-1">
               <Sparkles size={16} />
-              <span className="text-xs font-medium uppercase tracking-wider">Хит</span>
+              <span className="text-xs font-medium uppercase tracking-wider">
+                {t.hero.hit}
+              </span>
             </div>
-            <div className="font-heading text-base md:text-lg font-semibold">Silence Vase</div>
-            <div className="text-xs text-text/60 mt-1">
-              Лимитированная серия · 24 шт.
+            <div className="font-heading text-base md:text-lg font-semibold">
+              {t.hero.hitName}
             </div>
+            <div className="text-xs text-text/60 mt-1">{t.hero.hitDesc}</div>
           </motion.div>
         </motion.div>
       </div>

@@ -1,40 +1,25 @@
 import { motion } from 'framer-motion'
 import { Beaker, CircleDot, Flame, Droplets, Package } from 'lucide-react'
+import { useLanguage } from '../i18n/LanguageContext'
 
-const steps = [
-  {
-    icon: Beaker,
-    title: 'Отбор глины',
-    text: 'Используем красножгущуюся глину из проверенных карьеров. Каждая партия проходит тест на пластичность.',
-  },
-  {
-    icon: CircleDot,
-    title: 'Формовка на круге',
-    text: 'Мастер придаёт форму руками — без штампов и форм. Один оборот, один характер.',
-  },
-  {
-    icon: Flame,
-    title: 'Первый обжиг',
-    text: '12 часов при 950°C — так глина становится камнем, а изделие обретает прочность.',
-  },
-  {
-    icon: Droplets,
-    title: 'Глазурование',
-    text: 'Наносим авторские глазури в несколько слоёв. Цвет проявляется только после второго обжига.',
-  },
-  {
-    icon: Flame,
-    title: 'Второй обжиг',
-    text: 'Финальные 6 часов при 1200°C. Глазурь плавится и становится стеклом навечно.',
-  },
-  {
-    icon: Package,
-    title: 'Упаковка в крафт',
-    text: 'Заворачиваем в крафт-бумагу и перевязываем шпагатом. Готово к передаче в ваши руки.',
-  },
+const stepConfig = [
+  { key: 'clay', icon: Beaker },
+  { key: 'wheel', icon: CircleDot },
+  { key: 'fire1', icon: Flame },
+  { key: 'glaze', icon: Droplets },
+  { key: 'fire2', icon: Flame },
+  { key: 'pack', icon: Package },
 ]
 
 export default function Process() {
+  const { t } = useLanguage()
+
+  const steps = stepConfig.map(s => ({
+    ...s,
+    title: t.process.steps[s.key].title,
+    text: t.process.steps[s.key].text,
+  }))
+
   return (
     <section id="process" className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -46,13 +31,13 @@ export default function Process() {
           className="max-w-2xl mb-12 md:mb-16"
         >
           <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
-            Процесс
+            {t.process.label}
           </span>
           <h2 className="mt-3 font-heading text-3xl md:text-5xl font-semibold tracking-tight">
-            Как создаётся керамика
+            {t.process.title}
           </h2>
           <p className="mt-4 text-text/70 text-base md:text-lg">
-            От куска глины до изделия в вашем интерьере — около трёх недель кропотливой работы.
+            {t.process.subtitle}
           </p>
         </motion.div>
 
@@ -67,7 +52,7 @@ export default function Process() {
               const isEven = i % 2 === 0
               return (
                 <motion.li
-                  key={s.title}
+                  key={s.key}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}

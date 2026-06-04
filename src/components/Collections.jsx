@@ -1,34 +1,36 @@
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
+import { useLanguage } from '../i18n/LanguageContext'
 
-const products = [
+const productKeys = [
   {
-    name: 'Morning Bowl',
-    desc: 'Глубокая миска для завтраков и ритуалов утра',
-    price: '3 500 ₽',
+    key: 'morning',
     img: 'https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?w=900&q=80&auto=format&fit=crop',
   },
   {
-    name: 'Silence Vase',
-    desc: 'Высокая ваза с матовой глазурью цвета песка',
-    price: '8 900 ₽',
+    key: 'silence',
     img: 'https://images.unsplash.com/photo-1582582494705-f8ce0b0c24f0?w=900&q=80&auto=format&fit=crop',
   },
   {
-    name: 'Earth Mug',
-    desc: 'Тактильная кружка объёмом 320 мл с удобной ручкой',
-    price: '2 400 ₽',
+    key: 'earth',
     img: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=900&q=80&auto=format&fit=crop',
   },
   {
-    name: 'Dusk Plate',
-    desc: 'Плоская тарелка с переливом глазури в сумерках',
-    price: '4 200 ₽',
+    key: 'dusk',
     img: 'https://images.unsplash.com/photo-1603199506016-b9a594b593c0?w=900&q=80&auto=format&fit=crop',
   },
 ]
 
 export default function Collections() {
+  const { t } = useLanguage()
+
+  const products = productKeys.map(p => ({
+    ...p,
+    name: t.collections.products[p.key].name,
+    desc: t.collections.products[p.key].desc,
+    price: t.collections.products[p.key].price,
+  }))
+
   return (
     <section
       id="collections"
@@ -44,21 +46,21 @@ export default function Collections() {
         >
           <div>
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
-              Каталог
+              {t.collections.label}
             </span>
             <h2 className="mt-3 font-heading text-3xl md:text-5xl font-semibold tracking-tight">
-              Коллекции
+              {t.collections.title}
             </h2>
           </div>
           <p className="text-text/70 max-w-md text-sm md:text-base">
-            Каждое изделие создаётся небольшой партией. Следите за пополнениями — некоторые позиции появляются всего раз в сезон.
+            {t.collections.subtitle}
           </p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 gap-5 md:gap-6">
           {products.map((p, i) => (
             <motion.article
-              key={p.name}
+              key={p.key}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -83,7 +85,7 @@ export default function Collections() {
                   href="#contact"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-text text-sm font-medium shadow-lg hover:bg-accent hover:text-white transition-colors"
                 >
-                  Подробнее <ArrowUpRight size={16} />
+                  {t.collections.details} <ArrowUpRight size={16} />
                 </a>
               </div>
 
@@ -99,7 +101,7 @@ export default function Collections() {
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-[10px] uppercase tracking-wider text-text/40">
-                      от
+                      {t.collections.from}
                     </div>
                     <div className="font-heading text-lg md:text-xl font-semibold text-accent">
                       {p.price}
